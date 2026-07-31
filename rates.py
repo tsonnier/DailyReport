@@ -8,6 +8,11 @@ from dotenv import load_dotenv
 
 DEBUG = False
 
+# Series IDs for mortgage types
+MORT30YEAR = "MORTGAGE30US" # 30 year fixed rate mortgage
+MORT15YEAR = "MORTGAGE15US" # 15 year fixed rate mortgage
+MORT5Year = "MORTGAGE5US" # 5 year adjustable rate mortgage
+
 
 def get_curr_mortgage_rates(series_id, latest=False):
     # Returns full rate object
@@ -29,7 +34,9 @@ def get_curr_mortgage_rates(series_id, latest=False):
         return rate
 
 
-def get_all_mortgage_rates(earliest_date):
+def get_all_mortgage_rates():
+    rate_30_year = get_curr_mortgage_rates(MORT30YEAR)
+    rate_15_year = get_curr_mortgage_rates(MORT15YEAR)
     pass
 
 if DEBUG:

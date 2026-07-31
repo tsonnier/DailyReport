@@ -5,13 +5,27 @@ from datetime import date
 from datetime import datetime
 #from dateutil import relativedelta
 
-def get_savings():
+DEBUG = True
+
+def get_savings(balance, curr_rate, new_rate, years):
     # Get the current mortgage data 
     # Get latest interest rate
     # Calculate amount saved 
+
+    old_monthly_payment = monthly_payment(balance, curr_rate, years)
+    new_monthly_payment = monthly_payment(balance, new_rate, years)
+
+    return old_monthly_payment - new_monthly_payment
     pass
 
 def monthly_payment(balance, annual_rate, years):
+    """
+    Calculates the expected monthly payment using 
+    :param balance: float - the current balance for the loan
+    :param annual_rate: float - the annual interest rate, expressed as a percentage (5% interest = 5.0 value)
+    :param years: int - the number of years the loan applies to (30 year loan, etc)
+
+    """
     monthly_rate = annual_rate / 100 / 12
     months = years * 12
 
@@ -50,20 +64,39 @@ def calculate_remaining_balance(principal, annual_rate, total_years, payments_ma
     
     return round(balance, 2)
 
-def get_current_balance(start_bal, monthly_payment, start_date):
+def get_months_difference(loan_start_date):
     curr_date = date.today()
 
-    start_date_text = start_date
+    start_date_text = loan_start_date
     date_format = "%m/%d/%Y"
     start_date = datetime.strptime(start_date_text, date_format).date()
 
     time_difference_months = (curr_date.year - start_date.year) * 12 + (curr_date.month - start_date.month)
-    print(time_difference_months)
-    
+    print(time_difference_months)    
 
 
-    #curr_bal = start_bal - (monthly_payment * (time_difference_months - 1)) + 
-    #print(curr_bal)
+def get_closing_costs(balance):
+    """
+    Returns the estimated closing costs for a loan given the current balance
+    Estimated closing costs go from 2%-5% of loan.  Assume 5%
+    """
+    return (balance * 0.05)
 
-#get_current_balance(281250, 1686.06, "04/28/2025")
-#print(calculate_remaining_balance(281250, .05999, 30, 14))
+def break_even_time(balance, curr_rate, new_rate, years):
+    savings_per_month = get_savings(balance, curr_rate, new_rate, years)
+    closing_costs = get_closing_costs(balance)
+    return closing_costs / savings_per_month
+
+if DEBUG:
+    print("Calculate Remaining Balance Test")
+    print(calculate_remaining_balance(277147, 5.999, 30, 14))
+    print("Monthly Payment Test 1")
+    print(monthly_payment(277147, 5.999, 30))
+    print("Monthly Payment Test 2")
+    print(monthly_payment(277147, 4.999, 30))
+    print("Get Closing Costs Test")
+    print(get_closing_costs(277147))
+    print("Get Savings Test")
+    print(get_savings(277147, 5.999, 4.999, 30))
+    print("Get Break Even Time")
+    print(break_even_time(277147, 5.999, 4.999, 30))

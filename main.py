@@ -8,12 +8,16 @@ from dotenv import load_dotenv
 
 import emailer
 import rates
+from calculator import calculate_remaining_balance,get_closing_costs,get_savings
 
 THRESHOLD = float(os.getenv("MORTGAGE_INTEREST_RATE")) - 0.5
 
 def main():
     load_dotenv()
-    balance = (float(os.getenv()))
+    principal = os.getenv("MORTGAGE_START_AMOUNT")
+    
+
+
     rate_pair = rates.get_curr_mortgage_rates("MORTGAGE30US", True)
     curr_rate = rate_pair[1]
     print("Current Rate: " + str(curr_rate))
