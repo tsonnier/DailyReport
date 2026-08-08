@@ -5,7 +5,7 @@ from datetime import date
 from datetime import datetime
 #from dateutil import relativedelta
 
-DEBUG = True
+DEBUG = False
 
 def get_savings(balance, curr_rate, new_rate, years):
     # Get the current mortgage data 

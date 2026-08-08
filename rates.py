@@ -34,10 +34,13 @@ def get_curr_mortgage_rates(series_id, latest=False):
         return rate
 
 
-def get_all_mortgage_rates():
-    rate_30_year = get_curr_mortgage_rates(MORT30YEAR)
-    rate_15_year = get_curr_mortgage_rates(MORT15YEAR)
+def get_all_mortgage_rates(latest = False):
+    rate_30_year = get_curr_mortgage_rates(MORT30YEAR, latest)
+    rate_15_year = get_curr_mortgage_rates(MORT15YEAR, latest)
+    return [rate_30_year, rate_15_year]
     pass
 
 if DEBUG:
-    get_curr_mortgage_rates("MORTGAGE30US", True)
+    rates = get_all_mortgage_rates(True)
+    print("Mort 30 yr: " + str(rates[0][1]))
+    print("Mort 15 yr: " + str(rates[1][1]))
